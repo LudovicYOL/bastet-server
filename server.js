@@ -5,8 +5,6 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import jwt from 'express-jwt';
 
-import Issue from './models/Issue';
-
 import CtrlAuthentication from './controllers/authentication';
 import CtrlProfile from './controllers/profile';
 import CtrlIssue from './controllers/issue';
@@ -46,7 +44,8 @@ router.post('/register', CtrlAuthentication.register);
 router.post('/login', CtrlAuthentication.login);
 
 // PROFILE
-router.get('/profile', auth, CtrlProfile.profileRead);
+router.get('/profile', auth, CtrlProfile.findById);
+router.get('/profiles', auth, CtrlProfile.findAll);
 
 // ISSUES
 router.get('/issues', auth, CtrlIssue.find);
@@ -54,8 +53,6 @@ router.get('/issues/:id', auth, CtrlIssue.findById);
 router.post('/issues/add', auth, CtrlIssue.add);
 router.post('/issues/update/:id', auth, CtrlIssue.update);
 router.get('/issues/delete/:id', auth, CtrlIssue.delete);
-
-
 
 app.use('/api', router);
 app.listen(4000, () => console.log(`Express server running on port 4000`));
