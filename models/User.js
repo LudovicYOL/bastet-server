@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
+const config = require('../config/config');
+
 const Schema = mongoose.Schema;
 
 let User = new Schema({
@@ -37,8 +39,7 @@ let User = new Schema({
       email: this.email,
       name: this.name,
       exp: parseInt(expiry.getTime() / 1000),
-    }, "MY_SECRET"); // DO NOT KEEP YOUR SECRET IN THE CODE!
-    // TODO : put secret in a Constants files, only on the server
+    }, config.SECRET_JWT);
   };
 
   export default mongoose.model('User', User);

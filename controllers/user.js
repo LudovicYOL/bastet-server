@@ -1,7 +1,6 @@
 import User from "../models/User";
 
 module.exports.findById = function(req, res) {
-
   // If no user ID exists in the JWT return a 401
   if (!req.payload._id) {
     res.status(401).json({

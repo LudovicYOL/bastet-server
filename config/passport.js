@@ -1,5 +1,3 @@
-
-import mongoose from 'mongoose';
 import passport from 'passport';
 import User from '../models/User';
 
