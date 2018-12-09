@@ -48,8 +48,9 @@ router.post('/register', CtrlAuthentication.register);
 router.post('/login', CtrlAuthentication.login);
 
 // PROFILE
-router.get('/user', auth, CtrlUser.findById);
+router.get('/user/:id', auth, CtrlUser.findById);
 router.get('/users', auth, CtrlUser.findAll);
+router.post('/user/update', auth, CtrlUser.update);
 
 // ISSUES
 router.get('/issues', auth, CtrlIssue.find);
