@@ -5,9 +5,9 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 import jwt from 'express-jwt';
 
-import CtrlAuthentication from './controllers/authentication';
-import CtrlUser from './controllers/user';
-import CtrlIssue from './controllers/issue';
+import CtrlAuthentication from './controllers/AuthenticationController';
+import CtrlUser from './controllers/UserController';
+import CtrlIssue from './controllers/IssueController';
 
 require('./config/passport');
 const config = require('./config/config.js');

@@ -1,4 +1,4 @@
-import Issue from "../models/Issue";
+import Issue from "../models/IssueModel";
 
 module.exports.find = function(req, res) {
     Issue.find((err, issues) => {

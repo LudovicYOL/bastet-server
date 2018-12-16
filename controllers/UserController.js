@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/UserModel";
 
 module.exports.findById = function(req, res) {
     User
