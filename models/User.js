@@ -27,6 +27,9 @@ let User = new Schema({
   description: {
     type: String,
   },
+  keywords: [{
+    type: String
+  }],
   phone: {
     type: String,
   },
@@ -42,7 +45,7 @@ let User = new Schema({
   linkedin: {
     type: String,
   },
-  twitter: {
+  github: {
     type: String,
   },
   hash: String,
