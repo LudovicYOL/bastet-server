@@ -1,5 +1,5 @@
 import passport from 'passport';
-import User from '../models/UserModel';
+import Account from '../models/AccountModel';
 
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -7,22 +7,22 @@ passport.use(new LocalStrategy({
     usernameField: 'email'
   },
   function(username, password, done) {
-    User.findOne({ email: username }, function (err, user) {
+    Account.findOne({ email: username }, function (err, account) {
       if (err) { return done(err); }
-      // Return if user not found in database
-      if (!user) {
+      // Return if account not found in database
+      if (!account) {
         return done(null, false, {
-          message: 'User not found'
+          message: 'Account not found'
         });
       }
       // Return if password is wrong
-      if (!user.validPassword(password)) {
+      if (!account.validPassword(password)) {
         return done(null, false, {
           message: 'Password is wrong'
         });
       }
       // If credentials are correct, return the user object
-      return done(null, user);
+      return done(null, account);
     });
   }
 ));

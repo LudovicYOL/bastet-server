@@ -1,5 +1,6 @@
 import passport from 'passport';
 import User from '../models/UserModel';
+import Account from '../models/AccountModel';
 
 module.exports.register = function (req, res) {
 
@@ -9,27 +10,38 @@ module.exports.register = function (req, res) {
         req.body.promotion &&
         req.body.password) {
 
-        User.findOne({
+        Account.findOne({
                 email: req.body.email
             }, function (err, result) {
                 if (!result) {
-                    var user = new User();
 
+                    // Create account
+                    var account = Account();
+                    account.email = req.body.email;
+                    account.setPassword(req.body.password);
+
+                    // Create user
+                    var user = new User();
                     user.firstName = req.body.firstName;
                     user.lastName = req.body.lastName;
                     user.email = req.body.email;
                     user.promotion = req.body.promotion;
 
-                    user.setPassword(req.body.password);
-
-                    user.save(function (err) {
-                        var token;
-                        token = user.generateJwt();
-                        res.status(200);
-                        res.json({
-                            "token": token
+                    // Save user
+                    user.save(function (err, savedUser) {
+                        // Save account
+                        account.user = savedUser.id;
+                        account.save(function(err) {
+                            // Return with token
+                            var token;
+                            token = account.generateJwt();
+                            res.status(200);
+                            res.json({
+                                "token": token
+                            });
                         });
                     });
+                    
                 } else {
                     res.status(409);
                     res.json({"error":"User with mail already exists"});
@@ -43,7 +55,7 @@ module.exports.register = function (req, res) {
 };
 
 module.exports.login = function (req, res) {
-    passport.authenticate('local', function (err, user, info) {
+    passport.authenticate('local', function (err, account, info) {
         var token;
 
         // If Passport throws/catches an error
@@ -53,8 +65,8 @@ module.exports.login = function (req, res) {
         }
 
         // If a user is found
-        if (user) {
-            token = user.generateJwt();
+        if (account) {
+            token = account.generateJwt();
             res.status(200);
             res.json({
                 "token": token
