@@ -3,6 +3,7 @@ import Mission from "../models/MissionModel";
 module.exports.findByUser = function (req, res) {
     Mission
         .find({ user: req.params.user })
+        .sort({ startYear: -1, startMonth: -1})
         .exec(function (err, user) {
             res.status(200).json(user);
         });

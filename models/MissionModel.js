@@ -16,7 +16,7 @@ let Mission = new Schema({
     required: true
   },
   startMonth: {
-    type: String,
+    type: Number,
     required: true
   },
   startYear: {
@@ -24,7 +24,7 @@ let Mission = new Schema({
     required: true
   },
   endMonth: {
-    type: String,
+    type: Number,
     required: false
   },
   endYear: {
