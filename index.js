@@ -49,6 +49,7 @@ router.post('/login', CtrlAuthentication.login);
 
 // PROFILE
 router.get('/user/:id', auth, CtrlUser.findById);
+router.get('/user/search/:keywords', auth, CtrlUser.search);
 router.get('/users', auth, CtrlUser.findAll);
 router.post('/user/update', auth, CtrlUser.update);
 

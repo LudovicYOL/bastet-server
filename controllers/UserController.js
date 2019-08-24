@@ -31,3 +31,21 @@ module.exports.findAll = function (req, res) {
       res.json(issues);
   });
 };
+
+module.exports.search = function (req, res) {
+  let keywords = req.params.keywords;
+  User.find({ 
+    $or: [
+      { firstName: new RegExp('.*' + keywords + '.*', 'i') }, 
+      { lastName: new RegExp('.*' + keywords + '.*', 'i') }, 
+      { promotion: new RegExp('.*' + keywords + '.*', 'i') },
+    ]},
+  function (err, user) {
+    if (err) {
+      console.log(err);
+      res.send(err);
+    }
+    console.log(user);
+    res.json(user);
+  });
+};
