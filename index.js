@@ -8,7 +8,6 @@ import jwt from 'express-jwt';
 import CtrlAuthentication from './controllers/AuthenticationController';
 import CtrlUser from './controllers/UserController';
 import CtrlMission from './controllers/MissionController';
-import CtrlIssue from './controllers/IssueController';
 
 require('./config/passport');
 const config = require('./config/config.js');
@@ -36,36 +35,29 @@ app.use(function (err, req, res, next) {
     }
   });
 
-// Connexion à Mongo
+// Mongo connection
 mongoose.connect(config.MONGO_URL + config.MONGO_DATABASE, { useNewUrlParser: true }); // TODO : mettre dans une variable de configuration
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
 });
 
-// Définition des routes
-// AUTHENTICATION
+// API definition
+// Authentication
 router.post('/register', CtrlAuthentication.register);
 router.post('/login', CtrlAuthentication.login);
 
-// PROFILE
+// Profile
 router.get('/user/:id', auth, CtrlUser.findById);
 router.get('/user/search/:keywords', auth, CtrlUser.search);
 router.get('/users', auth, CtrlUser.findAll);
 router.post('/user/update', auth, CtrlUser.update);
 
-// ISSUES
-router.get('/issues', auth, CtrlIssue.find);
-router.get('/issues/:id', auth, CtrlIssue.findById);
-router.post('/issues/add', auth, CtrlIssue.add);
-router.post('/issues/update/:id', auth, CtrlIssue.update);
-router.get('/issues/delete/:id', auth, CtrlIssue.delete);
-
-// MISSION
+// Mission
 router.get('/mission/:user', auth, CtrlMission.findByUser);
 router.post('/mission/:user', auth, CtrlMission.addToUser);
 router.delete('/mission/:id', auth, CtrlMission.delete);
 
-// Lancement du serveur
+// server startup
 app.use('/api', router);
 app.listen(config.PORT, () => console.log(`Express server running on port ` + config.PORT));
