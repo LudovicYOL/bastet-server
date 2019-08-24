@@ -39,6 +39,9 @@ module.exports.search = function (req, res) {
       { firstName: new RegExp('.*' + keywords + '.*', 'i') }, 
       { lastName: new RegExp('.*' + keywords + '.*', 'i') }, 
       { promotion: new RegExp('.*' + keywords + '.*', 'i') },
+      { city: new RegExp('.*' + keywords + '.*', 'i') },
+      // { description: new RegExp('.*' + keywords + '.*', 'i') },
+      { keywords: new RegExp('.*' + keywords + '.*', 'i') },
     ]},
   function (err, user) {
     if (err) {
