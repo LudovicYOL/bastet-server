@@ -7,6 +7,7 @@ import jwt from 'express-jwt';
 
 import CtrlAuthentication from './controllers/AuthenticationController';
 import CtrlUser from './controllers/UserController';
+import CtrlMission from './controllers/MissionController';
 import CtrlIssue from './controllers/IssueController';
 
 require('./config/passport');
@@ -36,7 +37,7 @@ app.use(function (err, req, res, next) {
   });
 
 // Connexion à Mongo
-mongoose.connect(config.MONGO_URL + config.MONGO_DATABASE, { useNewUrlParser: true }); // TODO mettre dans une variable de configuration
+mongoose.connect(config.MONGO_URL + config.MONGO_DATABASE, { useNewUrlParser: true }); // TODO : mettre dans une variable de configuration
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
@@ -59,6 +60,11 @@ router.get('/issues/:id', auth, CtrlIssue.findById);
 router.post('/issues/add', auth, CtrlIssue.add);
 router.post('/issues/update/:id', auth, CtrlIssue.update);
 router.get('/issues/delete/:id', auth, CtrlIssue.delete);
+
+// MISSION
+router.get('/mission/:user', auth, CtrlMission.findByUser);
+router.post('/mission/:user', auth, CtrlMission.addToUser);
+router.delete('/mission/:id', auth, CtrlMission.delete);
 
 // Lancement du serveur
 app.use('/api', router);

@@ -9,7 +9,6 @@ module.exports.findById = function (req, res) {
 };
 
 module.exports.update = function (req, res) {
-  console.log(req.body);
   User
     .findByIdAndUpdate(
       req.body._id,

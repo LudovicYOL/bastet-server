@@ -1,8 +1,4 @@
 import mongoose from 'mongoose';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
-
-const config = require('../config/config');
 
 const Schema = mongoose.Schema;
 
