@@ -9,6 +9,7 @@ import CtrlAuthentication from './controllers/AuthenticationController';
 import CtrlAccount from './controllers/AccountController';
 import CtrlUser from './controllers/UserController';
 import CtrlMission from './controllers/MissionController';
+import CtrlStat from './controllers/StatisticController';
 
 require('./config/passport');
 const config = require('./config/config.js');
@@ -62,6 +63,9 @@ router.post('/user/update', auth, CtrlUser.update);
 router.get('/mission/:user', auth, CtrlMission.findByUser);
 router.post('/mission/:user', auth, CtrlMission.addToUser);
 router.delete('/mission/:id', auth, CtrlMission.delete);
+
+// Statistic
+router.get('/stat/promotion', CtrlStat.promotion);
 
 // server startup
 app.use('/api', router);
