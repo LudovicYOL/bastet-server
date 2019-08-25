@@ -6,6 +6,7 @@ import passport from 'passport';
 import jwt from 'express-jwt';
 
 import CtrlAuthentication from './controllers/AuthenticationController';
+import CtrlAccount from './controllers/AccountController';
 import CtrlUser from './controllers/UserController';
 import CtrlMission from './controllers/MissionController';
 
@@ -46,6 +47,10 @@ connection.once('open', () => {
 // Authentication
 router.post('/register', CtrlAuthentication.register);
 router.post('/login', CtrlAuthentication.login);
+
+// Account 
+router.post('/update-password', auth, CtrlAccount.updatePassword);
+router.post('/update-login', auth, CtrlAccount.updateLogin);
 
 // Profile
 router.get('/user/:id', auth, CtrlUser.findById);
