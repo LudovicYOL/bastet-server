@@ -1,6 +1,7 @@
 import passport from 'passport';
 import User from '../models/UserModel';
 import Account from '../models/AccountModel';
+import History from '../models/HistoryModel';
 
 module.exports.register = function (req, res) {
 
@@ -11,46 +12,53 @@ module.exports.register = function (req, res) {
         req.body.password) {
 
         Account.findOne({
-                email: req.body.email
-            }, function (err, result) {
-                if (!result) {
+            email: req.body.email
+        }, function (err, result) {
+            if (!result) {
 
-                    // Create account
-                    var account = Account();
-                    account.email = req.body.email;
-                    account.setPassword(req.body.password);
+                // Create account
+                var account = Account();
+                account.email = req.body.email;
+                account.setPassword(req.body.password);
 
-                    // Create user
-                    var user = new User();
-                    user.firstName = req.body.firstName;
-                    user.lastName = req.body.lastName;
-                    user.email = req.body.email;
-                    user.promotion = req.body.promotion;
+                // Create user
+                var user = new User();
+                user.firstName = req.body.firstName;
+                user.lastName = req.body.lastName;
+                user.email = req.body.email;
+                user.promotion = req.body.promotion;
 
-                    // Save user
-                    user.save(function (err, savedUser) {
-                        // Save account
-                        account.user = savedUser.id;
-                        account.save(function(err) {
-                            // Return with token
-                            var token;
-                            token = account.generateJwt();
-                            res.status(200);
-                            res.json({
-                                "token": token
-                            });
+                // Save user
+                user.save(function (err, savedUser) {
+                    // Save account
+                    account.user = savedUser.id;
+                    account.save(function (err) {
+
+                        // Create history
+                        User.findById(account.user, function (err, user) {
+                            let history = new History();
+                            history.createInstance(user, "a créé son compte sur Bastet !");
+                        });
+
+                        // Return with token
+                        var token;
+                        token = account.generateJwt();
+                        res.status(200);
+                        res.json({
+                            "token": token
                         });
                     });
-                    
-                } else {
-                    res.status(409);
-                    res.json({"error":"User with mail already exists"});
-                }
+                });
+
+            } else {
+                res.status(409);
+                res.json({ "error": "User with mail already exists" });
             }
+        }
         );
     } else {
         res.status(400);
-        res.json({"error":"Unvalid data to register"});
+        res.json({ "error": "Unvalid data to register" });
     }
 };
 
@@ -66,6 +74,14 @@ module.exports.login = function (req, res) {
 
         // If a user is found
         if (account) {
+
+            // Create history
+            User.findById(account.user, function (err, user) {
+                let history = new History();
+                history.createInstance(user, "s'est connecté à Bastet !");
+            });
+
+            // Return token
             token = account.generateJwt();
             res.status(200);
             res.json({

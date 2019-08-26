@@ -1,4 +1,5 @@
 import User from "../models/UserModel";
+import History from "../models/HistoryModel";
 
 module.exports.findById = function (req, res) {
   User
@@ -18,6 +19,12 @@ module.exports.update = function (req, res) {
       (err, user) => {
         if (err)
           console.log(err);
+
+        // Create history 
+        let history = new History();
+        history.createInstance(user, "a modifié son profil");
+
+        // Return user after update 
         res.status(200).json(user);
       });
 };
