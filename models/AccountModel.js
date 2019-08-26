@@ -12,10 +12,15 @@ let Account = new Schema({
     unique: true,
     required: true
   },
+  role: {
+    type: String,
+    enum: ['USER', 'ADMIN', 'SCHOOL', 'OTHER'],
+    default: 'USER'
+  },
   hash: String,
   salt: String,
   user: {
-    type: mongoose.Schema.Types.ObjectId, 
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
 });
@@ -39,6 +44,7 @@ Account.methods.generateJwt = function () {
     email: this.email,
     name: this.name,
     user: this.user,
+    role: this.role,
     exp: parseInt(expiry.getTime() / 1000),
   }, config.SECRET_JWT);
 };

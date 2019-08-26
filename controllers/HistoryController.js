@@ -11,3 +11,11 @@ module.exports.paginate = function (req, res) {
         res.status(200).json(result);
     });
 };
+
+module.exports.delete = function(req, res) {
+    History.deleteOne({_id: req.params.id}, function(err, result){
+        if(!err){
+            res.status(200).json(result);
+        }
+    });
+};

@@ -67,6 +67,7 @@ router.delete('/mission/:id', auth, CtrlMission.delete);
 
 // History 
 router.get('/history/:page', auth, CtrlHistory.paginate);
+router.delete('/history/:id', auth, CtrlHistory.delete);
 
 // Statistic
 router.get('/stat/promotion', auth, CtrlStat.promotion);
