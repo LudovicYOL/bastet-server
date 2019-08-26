@@ -71,6 +71,7 @@ router.delete('/history/:id', auth, CtrlHistory.delete);
 
 // Statistic
 router.get('/stat/promotion', auth, CtrlStat.promotion);
+router.get('/stat/city', auth, CtrlStat.city);
 
 // server startup
 app.use('/api', router);

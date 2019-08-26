@@ -12,3 +12,19 @@ module.exports.promotion = function (req, res) {
         }
     );
 };
+
+module.exports.city = function (req, res) {
+    let currentYear = new Date().getFullYear();
+    User.aggregate(
+        [
+            { $match: { promotion: { $lte: currentYear } } },
+            { $group: { _id: "$city", count: { $sum: 1 } } },
+            { $sort: { "_id": 1 } }
+        ],
+        function (err, result) {
+            if (err) return handleError(err);
+            res.status(200).json(result);
+        }
+    );
+};
+

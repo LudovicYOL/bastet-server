@@ -12,7 +12,7 @@ let User = new Schema({
     required: true
   },
   promotion: {
-    type: String,
+    type: Number,
     required: true
   },
   email: {
