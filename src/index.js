@@ -39,7 +39,10 @@ app.use(function (err, req, res, next) {
   });
 
 // Mongo connection
-mongoose.connect(config.MONGO_URL + config.MONGO_DATABASE, { useNewUrlParser: true }); // TODO : mettre dans une variable de configuration
+mongoose.connect(config.MONGO_URL + config.MONGO_DATABASE, { useNewUrlParser: true }, (err) => {
+  console.error(err);
+  process.exit(1);
+});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
