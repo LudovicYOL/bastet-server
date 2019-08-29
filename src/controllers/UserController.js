@@ -42,12 +42,12 @@ module.exports.search = function (req, res) {
   let keywords = req.params.keywords;
   User.find({ 
     $or: [
-      { firstName: new RegExp('.*' + keywords + '.*', 'i') }, 
-      { lastName: new RegExp('.*' + keywords + '.*', 'i') }, 
-      { promotion: new RegExp('.*' + keywords + '.*', 'i') },
-      { city: new RegExp('.*' + keywords + '.*', 'i') },
-      // { description: new RegExp('.*' + keywords + '.*', 'i') },
-      { keywords: new RegExp('.*' + keywords + '.*', 'i') },
+      { firstName: { $regex: keywords, $options: 'i' }}, 
+      { lastName: { $regex: keywords, $options: 'i' }}, 
+      { $where: `this.promotion.toString().indexOf('${keywords}') !== -1` },
+      { city: { $regex: keywords, $options: 'i' }},
+      // { description: { $regex: keywords, $options: 'i' }},
+      { keywords: { $regex: keywords, $options: 'i' }},
     ]},
   function (err, user) {
     if (err) {
